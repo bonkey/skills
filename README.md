@@ -12,7 +12,7 @@ npx skills add bonkey/skills -g --all
 
 ### decision-log
 
-Design log methodology for significant features and architectural changes. Enforces structured flow: design first, approval, then implement with tracked deviations.
+Lightweight ADR decision log that auto-captures plans. Includes a Claude Code hook (`PostToolUse` on `ExitPlanMode`) that prompts the agent to write a concise decision record after every plan approval. Cross-CLI via AGENTS.md fallback.
 
 ```sh
 npx skills add bonkey/skills -g --skill decision-log -y
