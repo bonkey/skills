@@ -12,10 +12,10 @@ Maintain structured design logs for significant features and architectural chang
 The repository must define the decision log directory (e.g., in `AGENTS.md`, `CLAUDE.md`, or equivalent):
 
 ```
-Decision log directory: ./design-log/
+Decision log directory: ./{docs}/decision-log/
 ```
 
-If the directory is not configured, stop and ask the user to set it before proceeding.
+If the directory is not configured, suggest a default path by scanning the repo for common documentation folders (`docs/`, `doc/`, `documentation/`). Use the first match as `{docs}`. If none exist, default to `docs`. Then ask the user to confirm before proceeding.
 
 ## Before Making Changes
 
