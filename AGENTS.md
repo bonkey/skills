@@ -17,3 +17,7 @@ Skills live in `skills/<skill-name>/`. Each skill folder contains:
 - `assets/` — optional templates, icons
 
 See the [skills-manual](skills/skills-manual/SKILL.md) skill for full guidelines.
+
+## Repo Maintenance vs Skill Content
+
+Scripts that fetch or generate reference docs belong in the `Justfile`, not inside skill folders. Skill folders (`scripts/`, `references/`, `assets/`) should only contain content that the skill itself uses at runtime. Build/update tooling lives at the repo level.

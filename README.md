@@ -26,6 +26,14 @@ Guidelines for creating well-structured AI agent skills. Includes Anthropic's of
 npx skills add bonkey/skills -g --skill skills-manual -y
 ```
 
+### done
+
+Check if a PR already exists; if it does, update the PR. If no PR exists, merge current branch locally into main and push to main remote.
+
+```sh
+npx skills add bonkey/skills -g --skill done -y
+```
+
 ### claude-plugin-creator
 
 Create Claude Code plugins, skills, commands, agents, hooks, MCP servers, and marketplace files. Includes decision guide for choosing between plugin vs skill vs MCP vs standalone.
