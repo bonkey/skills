@@ -41,3 +41,11 @@ Create Claude Code plugins, skills, commands, agents, hooks, MCP servers, and ma
 ```sh
 npx skills add bonkey/skills -g --skill claude-plugin-creator -y
 ```
+
+### pr
+
+Create, update, and manage pull requests with auto-generated descriptions from git diffs. Supports full PR lifecycle: create, update, close, merge, reviewers, labels, and CI checks.
+
+```sh
+npx skills add bonkey/skills -g --skill pr -y
+```
