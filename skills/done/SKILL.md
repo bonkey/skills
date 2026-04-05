@@ -9,6 +9,10 @@ Ship the current branch — either by updating an existing PR or merging locally
 
 ## Workflow
 
+### 0. Pre-flight — verify repo requirements
+
+Find and read whichever convention/instruction files apply to this repo and harness (e.g. `AGENTS.md`, `CLAUDE.md`, `CONTRIBUTING.md`, `.cursor/rules/*`, `.github/copilot-instructions.md`, `.clinerules`, etc. — follow any `@`-includes). Verify the branch satisfies the rules; fix or surface gaps before continuing.
+
 ### 1. Check for an existing PR
 
 ```bash
