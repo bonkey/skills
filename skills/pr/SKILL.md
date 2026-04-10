@@ -13,7 +13,7 @@ Operations are combinable. If the user includes reviewers, labels, or other meta
 
 | User says                                 | Action                                     |
 | ----------------------------------------- | ------------------------------------------ |
-| `/pr` (no text)                           | Create or update PR, open in browser       |
+| `/pr` (no text)                           | Create or update PR (web interface)        |
 | `/pr this fixes the timeout bug`          | Same, with added context for description   |
 | `/pr against release/v2.x`                | PR against specified base branch           |
 | `/pr close`                               | `gh pr close --delete-branch`              |
@@ -151,7 +151,7 @@ Built-in templates live in `assets/default-template.md` and `assets/minimal-temp
    - Commit, then proceed.
 2. Push branch if needed: `git push -u origin HEAD`
 3. Create or update:
-   - **New PR:** `gh pr create --title "..." --body "..." --web` (always opens in browser)
+   - **New PR:** `gh pr create --web` — **ONLY open the browser**. Do NOT pass `--title` or `--body` to `gh pr create`; those flags cause CLI creation. Print the generated title and body to the console for the user to paste in the browser. Use `gh pr create --title "..." --body "..."` only if the user explicitly asks for CLI creation.
    - **Existing PR:** `gh pr edit --title "..." --body "..."`
 4. Apply any combined operations (reviewers, labels) from the user's input
 
