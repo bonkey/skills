@@ -46,11 +46,21 @@ Then push main to remote:
 git push origin main
 ```
 
-### 3. Confirm
+### 3. Update related ticket
+
+If a related ticket is known (Jira, Linear, GitHub issue, etc. — from branch name, commit messages, PR body, or conversation context), update its status to reflect the ship:
+
+- **PR updated** → move ticket to "In Review" (or equivalent) if not already there
+- **Merged to main** → move ticket to "Done" / "Closed" / "Shipped"
+
+If no ticket is obviously linked, skip this step — don't guess.
+
+### 4. Confirm
 
 Report what happened:
 - **PR updated**: print the PR URL
 - **Merged locally**: print the commit hash on main
+- **Ticket updated**: print the ticket ID and new status (if applicable)
 
 ## Reference
 
