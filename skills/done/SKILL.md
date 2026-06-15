@@ -58,7 +58,7 @@ gh pr create --fill
 Merge the current branch into main using worktrunk:
 
 ```bash
-wt merge --no-remove
+wt merge
 ```
 
 Then push main to remote:
