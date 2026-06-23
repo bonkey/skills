@@ -1,5 +1,5 @@
 # Update all skill references
-update-all: update-skills-manual update-claude-plugin-creator update-done
+update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage
 
 # Fetch latest Anthropic skill builder guide for skills-manual
 update-skills-manual:
@@ -38,3 +38,7 @@ update-claude-plugin-creator:
     curl -sL "https://code.claude.com/docs/en/plugins.md" -o skills/claude-plugin-creator/references/create-plugins.md
     curl -sL "https://code.claude.com/docs/en/plugins-reference.md" -o skills/claude-plugin-creator/references/plugins-reference-raw.md
     curl -sL "https://code.claude.com/docs/en/plugin-marketplaces.md" -o skills/claude-plugin-creator/references/plugin-marketplaces.md
+
+# No external references required for pr-comment-triage
+update-pr-comment-triage:
+    @true

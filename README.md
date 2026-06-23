@@ -49,3 +49,11 @@ Create, update, and manage pull requests with auto-generated descriptions from g
 ```sh
 npx skills add bonkey/skills -g --skill pr -y
 ```
+
+### pr-comment-triage
+
+Reviews all comments on the current pull request, evaluates whether each one still needs action, and decides whether it should be addressed or resolved.
+
+```sh
+npx skills add bonkey/skills -g --skill pr-comment-triage -y
+```
