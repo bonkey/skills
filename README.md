@@ -57,3 +57,11 @@ Reviews all comments on the current pull request, evaluates whether each one sti
 ```sh
 npx skills add bonkey/skills -g --skill pr-comment-triage -y
 ```
+
+### pr-conflict-resolver
+
+Resolves pull request merge conflicts carefully and conservatively, asking the user whenever the correct resolution is unclear.
+
+```sh
+npx skills add bonkey/skills -g --skill pr-conflict-resolver -y
+```
