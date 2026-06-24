@@ -52,7 +52,7 @@ npx skills add bonkey/skills -g --skill pr -y
 
 ### pr-comment-triage
 
-Reviews all comments on the current pull request, evaluates whether each one still needs action, and decides whether it should be addressed or resolved.
+Reviews all comments on the current pull request, evaluates whether each one still needs action, addresses or resolves each thread, and leaves a short explanation reply on every thread it resolves.
 
 ```sh
 npx skills add bonkey/skills -g --skill pr-comment-triage -y

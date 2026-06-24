@@ -5,7 +5,7 @@ description: "Reviews all comments on the current pull request, evaluates whethe
 
 # PR Comment Triage
 
-Review every comment on the current PR and make a careful decision for each one: address it in code, reply for clarification, or resolve it when it is already handled.
+Review every comment on the current PR and make a careful decision for each one: address it in code, reply for clarification, or resolve it when it is already handled. Resolve every review thread you have confirmed is handled, and always leave a short explanation reply when you resolve one.
 
 ## Scope
 
@@ -20,7 +20,9 @@ This skill is for the **current PR on the current branch**.
 
 ## Rules
 
-- Be conservative. Do not resolve comments unless you can clearly justify why they no longer need action.
+- Be conservative about *whether* a thread is handled, but once you have confirmed it is, resolve it — do not leave verified-handled threads open.
+- Always leave a short explanation reply on a thread before resolving it, regardless of why it is being resolved (fixed in code, invalid, obsolete, or settled by discussion).
+- This skill is repeatable. Assume it may be run many times on the same PR, and each run fetch the live state fresh — never rely on a previous run's inventory. On every run, pick up comments added since last time and re-check open threads that the code may have made addressed or obsolete.
 - Distinguish between **review threads** and **top-level PR comments**:
   - Review threads can be resolved.
   - Top-level PR conversation comments cannot be marked resolved in GitHub; they can only be replied to or left as-is.
@@ -56,9 +58,10 @@ If no PR exists for the current branch, stop and tell the user.
 
 ### 2. Build a complete comment inventory
 
-Collect **all human feedback** that may require action:
+Collect **all human feedback** that may require action. Build this fresh on every run so repeated runs stay in sync with the live PR:
 
-- Unresolved review threads
+- Unresolved review threads — including any added since the last run
+- Open threads whose concern the current code may now have addressed (resolve them) or made obsolete (the code they referenced was changed, moved, or removed)
 - Resolved review threads that may have been resolved incorrectly
 - Top-level PR comments in the conversation
 - Review summaries when they include actionable requests
@@ -131,20 +134,31 @@ If the user asked you to act, proceed after the summary unless a decision is amb
 
 - Make the smallest correct change that resolves the underlying concern.
 - Keep the fix scoped to the feedback.
-- After changing code, re-check the thread against the new code before resolving it.
+- After changing code, re-check the thread against the new code, then resolve it with a short reply describing the fix (see below).
 
 ### When a review thread should be resolved
 
 Resolve only review threads, not top-level PR comments.
 
-Preferred approach:
+**Always post a short explanation reply before resolving the thread**, regardless of why it is being resolved. One or two sentences is enough; the reply tells the reviewer what happened:
 
-1. Optionally add a short reply if context would help reviewers.
+- **fixed in code** — name the change and, when useful, the commit or `file:line`
+- **invalid** — explain why the concern does not apply to the actual implementation
+- **obsolete** — the relevant code was removed or replaced
+- **settled by discussion** — point to the reply or decision that resolved it
+
+Required approach (do both, in this order):
+
+1. Post the explanation reply on the thread.
 2. Resolve the thread via GitHub GraphQL.
 
 Example shape:
 
 ```sh
+# 1. Reply with a short explanation
+gh api graphql -f query='mutation($threadId:ID!,$body:String!) { addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:$threadId, body:$body}) { comment { id } } }' -F threadId='THREAD_ID' -F body='Fixed in <commit> — extracted the helper as requested.'
+
+# 2. Resolve the thread
 gh api graphql -f query='mutation($threadId:ID!) { resolveReviewThread(input:{threadId:$threadId}) { thread { isResolved } } }' -F threadId='THREAD_ID'
 ```
 
