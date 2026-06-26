@@ -65,3 +65,11 @@ Resolves pull request merge conflicts carefully and conservatively, asking the u
 ```sh
 npx skills add bonkey/skills -g --skill pr-conflict-resolver -y
 ```
+
+### exec-summary
+
+Summarize the last substantive assistant message in plain language for decision-making: concise but not too short, bottom line up front, important details only, trade-offs, and practical options without ornaments.
+
+```sh
+npx skills add bonkey/skills -g --skill exec-summary -y
+```
