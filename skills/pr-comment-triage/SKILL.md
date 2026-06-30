@@ -22,6 +22,7 @@ This skill is for the **current PR on the current branch**.
 
 - Be conservative about *whether* a thread is handled, but once you have confirmed it is, resolve it — do not leave verified-handled threads open.
 - Always leave a short explanation reply on a thread before resolving it, regardless of why it is being resolved (fixed in code, invalid, obsolete, or settled by discussion).
+- Mark every comment you post to the PR (thread replies and top-level comments alike) with a trailing attribution line: `🤖 Generated with Claude Code`. Put it on its own line at the end of the comment body.
 - This skill is repeatable. Assume it may be run many times on the same PR, and each run fetch the live state fresh — never rely on a previous run's inventory. On every run, pick up comments added since last time and re-check open threads that the code may have made addressed or obsolete.
 - Distinguish between **review threads** and **top-level PR comments**:
   - Review threads can be resolved.
@@ -147,6 +148,8 @@ Resolve only review threads, not top-level PR comments.
 - **obsolete** — the relevant code was removed or replaced
 - **settled by discussion** — point to the reply or decision that resolved it
 
+End every reply body with the attribution line `🤖 Generated with Claude Code` on its own line.
+
 Required approach (do both, in this order):
 
 1. Post the explanation reply on the thread.
@@ -155,8 +158,10 @@ Required approach (do both, in this order):
 Example shape:
 
 ```sh
-# 1. Reply with a short explanation
-gh api graphql -f query='mutation($threadId:ID!,$body:String!) { addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:$threadId, body:$body}) { comment { id } } }' -F threadId='THREAD_ID' -F body='Fixed in <commit> — extracted the helper as requested.'
+# 1. Reply with a short explanation (end the body with the attribution line)
+gh api graphql -f query='mutation($threadId:ID!,$body:String!) { addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:$threadId, body:$body}) { comment { id } } }' -F threadId='THREAD_ID' -F body='Fixed in <commit> — extracted the helper as requested.
+
+🤖 Generated with Claude Code'
 
 # 2. Resolve the thread
 gh api graphql -f query='mutation($threadId:ID!) { resolveReviewThread(input:{threadId:$threadId}) { thread { isResolved } } }' -F threadId='THREAD_ID'
