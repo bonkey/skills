@@ -1,15 +1,15 @@
 ---
-name: pr-conflict-resolver
-description: "Resolves pull request merge conflicts carefully and conservatively, asking the user whenever the correct resolution is unclear. Use when the user asks to fix PR conflicts, resolve merge conflicts, rebase a conflicted branch, or decide between base-branch structure and branch-specific content."
+name: git-conflict-resolver
+description: "Resolves git merge conflicts carefully and conservatively, asking the user whenever the correct resolution is unclear. Use when the user asks to fix PR conflicts, resolve merge conflicts, rebase a conflicted branch, or decide between base-branch structure and branch-specific content."
 ---
 
-# PR Conflict Resolver
+# Git Conflict Resolver
 
 Resolve merge conflicts on the current branch carefully. Preserve intent, avoid silent guesses, and ask the user whenever the correct resolution is not clearly supported by the code or surrounding context.
 
 ## Scope
 
-Use this skill when the user wants help with a conflicted PR or branch, including requests like:
+Use this skill when the user wants help with a conflicted branch or PR, including requests like:
 
 - "fix PR conflicts"
 - "resolve merge conflicts"
@@ -24,7 +24,7 @@ This skill is for conflict resolution in the current repository and current bran
 - Treat conflict resolution as a semantic merge task, not a text-editing task.
 - Prefer keeping both sides when they are complementary.
 - Ask the user whenever the right answer depends on product intent, architecture direction, ownership, or naming/structure conventions.
-- If the base branch changed structure and the PR branch changed content, do not assume which one wins. Inspect both and ask if the answer is not obvious.
+- If the base branch changed structure and the feature branch changed content, do not assume which one wins. Inspect both and ask if the answer is not obvious.
 - Do not discard code without being able to justify why it is obsolete or incorrect.
 - Keep the final file consistent, compilable, and stylistically aligned with the surrounding code.
 - If conflict resolution rewrites branch history and a push is needed, use `git push --force-with-lease`, never a plain `--force`.
@@ -34,7 +34,7 @@ This skill is for conflict resolution in the current repository and current bran
 Stop and ask if any conflict involves uncertainty such as:
 
 - base branch introduces a new structure, abstraction, or file layout
-- PR branch contains business logic that no longer fits cleanly into the new structure
+- feature branch contains business logic that no longer fits cleanly into the new structure
 - both sides changed the same logic in different ways
 - one side renames or moves code while the other side edits behavior
 - either side may reflect a newer product decision or API contract
@@ -156,10 +156,10 @@ Use a normal `git push` only when history was not rewritten.
 ### Prefer base-branch structure when:
 
 - base introduced a broader refactor adopted across nearby files
-- the PR branch's code can be ported into the new structure with little ambiguity
+- the feature branch's code can be ported into the new structure with little ambiguity
 - keeping the old structure would reintroduce obsolete patterns
 
-### Prefer PR-branch content when:
+### Prefer feature-branch content when:
 
 - it contains the feature or fix under review
 - base-side changes are mostly mechanical and can be incorporated around it

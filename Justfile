@@ -1,5 +1,5 @@
 # Update all skill references
-update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-pr-conflict-resolver update-exec-summary
+update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-git-conflict-resolver update-exec-summary
 
 # Fetch latest Anthropic skill builder guide for skills-manual
 update-skills-manual:
@@ -43,8 +43,8 @@ update-claude-plugin-creator:
 update-pr-comment-triage:
     @true
 
-# No external references required for pr-conflict-resolver
-update-pr-conflict-resolver:
+# No external references required for git-conflict-resolver
+update-git-conflict-resolver:
     @true
 
 update-exec-summary:
