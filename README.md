@@ -58,12 +58,12 @@ Reviews all comments on the current pull request, evaluates whether each one sti
 npx skills add bonkey/skills -g --skill pr-comment-triage -y
 ```
 
-### git-conflict-resolver
+### seamless-rebase
 
-Resolves git merge conflicts carefully and conservatively, asking the user whenever the correct resolution is unclear.
+Rebases the current branch onto the repository's default branch (detected from git), resolving conflicts carefully and conservatively. Resumes an in-progress rebase instead of starting a new one, and asks the user whenever the correct resolution is unclear.
 
 ```sh
-npx skills add bonkey/skills -g --skill git-conflict-resolver -y
+npx skills add bonkey/skills -g --skill seamless-rebase -y
 ```
 
 ### exec-summary
