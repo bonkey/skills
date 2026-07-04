@@ -1,9 +1,9 @@
 ---
-name: seamless-rebase
+name: smooth-rebase
 description: "Rebases the current branch onto the repository's default branch and resolves any conflicts carefully and conservatively, asking the user whenever the correct resolution is unclear. If a rebase is already in progress, it resumes it instead of starting a new one. Use when the user asks to rebase a branch, update a branch onto main/master, fix PR conflicts, or resolve rebase conflicts."
 ---
 
-# Seamless Rebase
+# Smooth Rebase
 
 Rebase the current branch onto the repository's default branch, resolving conflicts along the way. Preserve intent, avoid silent guesses, and ask the user whenever the correct resolution is not clearly supported by the code or surrounding context.
 

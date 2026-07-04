@@ -1,5 +1,5 @@
 # Update all skill references
-update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-seamless-rebase update-exec-summary
+update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-smooth-rebase update-exec-summary
 
 # Fetch latest Anthropic skill builder guide for skills-manual
 update-skills-manual:
@@ -43,8 +43,8 @@ update-claude-plugin-creator:
 update-pr-comment-triage:
     @true
 
-# No external references required for seamless-rebase
-update-seamless-rebase:
+# No external references required for smooth-rebase
+update-smooth-rebase:
     @true
 
 update-exec-summary:
