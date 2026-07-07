@@ -1,5 +1,5 @@
 # Update all skill references
-update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-smooth-rebase update-exec-summary
+update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-smooth-rebase update-exec-summary update-timeless-docs
 
 # Fetch latest Anthropic skill builder guide for skills-manual
 update-skills-manual:
@@ -48,4 +48,8 @@ update-smooth-rebase:
     @true
 
 update-exec-summary:
+    @true
+
+# No external references required for timeless-docs
+update-timeless-docs:
     @true

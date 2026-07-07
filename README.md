@@ -73,3 +73,11 @@ Summarize the last substantive assistant message in plain language for decision-
 ```sh
 npx skills add bonkey/skills -g --skill exec-summary -y
 ```
+
+### timeless-docs
+
+Improve docs and comment prose so it describes the current state of the code directly — cutting history, transitions, absences, and trivial detail. Rewrites "previously / now / no longer / migrated from / instead of" phrasing into plain present-state statements while preserving every non-trivial fact.
+
+```sh
+npx skills add bonkey/skills -g --skill timeless-docs -y
+```
