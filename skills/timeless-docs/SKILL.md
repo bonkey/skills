@@ -1,6 +1,6 @@
 ---
 name: timeless-docs
-description: "Improve documentation and comment prose so it describes the current state of the code directly and reads clearly in plain language, cutting history, transitions, and trivial detail. Use when the user wants to clean up, tighten, or improve docs or comments in a file or project, make docs clearer / more concise / more readable, remove 'previously / now / no longer / migrated from / instead of' phrasing, make docs timeless, or asks to 'improve docs prose'."
+description: "Improve documentation and comment prose so it describes the current state of the code directly and reads clearly in plain language, cutting history, transitions, and trivial detail. Works in two modes: on the current changes (session edits, uncommitted work, or the branch diff) or on named files/folders. Use when the user wants to clean up, tighten, or improve docs or comments — in a file, folder, project, or in what was just changed ('tidy the comments in this diff', 'clean up the docs we just edited', 'fix docs before committing') — make docs clearer / more concise / more readable, remove 'previously / now / no longer / migrated from / instead of' phrasing, make docs timeless, or asks to 'improve docs prose'."
 ---
 
 # Timeless Docs
@@ -112,13 +112,42 @@ Some documents exist to record change. Leave these alone, or ask before touching
 
 If the user's selected area includes one of these, flag it and confirm before editing rather than flattening its history away.
 
+## Scope: two modes
+
+Every run is either a **changes pass** or a **path pass**. Pick the mode from the request; arguments that are paths mean path mode, and `changes` / `diff` / `session` (or no argument) mean changes mode.
+
+### Changes mode — docs touched by current work
+
+Use when the user points at recent work rather than a place: "the changes", "this diff", "what we just edited", "before I commit", or gives no target while there is work in flight.
+
+Build the file list from these sources, first non-empty wins:
+
+1. **Session edits** — files created or edited earlier in this conversation.
+2. **Uncommitted work** — `git status --porcelain`: modified, staged, and untracked files.
+3. **Branch diff** — if the tree is clean, `git diff <default-branch>...HEAD --name-only`.
+
+If all three are empty, say so and ask for a path — do not fall back to sweeping the repo.
+
+Within each file, edit only prose the change touched:
+
+- comment/doc lines added or modified in the diff hunks;
+- comments adjacent to a changed hunk that the change made stale or history-flavored — a code change is exactly when "now uses X" comments get written, and when old comments start describing a state that no longer exists;
+- for doc files in the change set (`README`, `docs/*.md`, …), the changed sections.
+
+Changes mode is a targeted pass, not a file audit. Do not rewrite untouched parts of a changed file; if you notice forbidden patterns outside the change, list them in the report as candidates instead of editing them.
+
+### Path mode — explicit files or folders
+
+Use when the user names files or directories. Work exactly those, recursing into directories: doc files plus comments and docstrings in source files.
+
+- For a whole project ("this project", the repo root), enumerate candidates (`README`, `docs/`, module/header comments, docstrings) and, if the set is large, propose a short plan before mass-editing.
+- If a named path does not exist or the target is genuinely ambiguous, ask which files or directory to work on.
+
 ## Workflow
 
-### 1. Determine the scope
+### 1. Resolve the scope
 
-- If the user named a file or directory, use it.
-- If they said "this project" or gave no target, infer from context (the file open, the recent diff, or the repo's docs). For a whole project, enumerate candidates (`README`, `docs/`, module/header comments, docstrings) and, if the set is large, propose a short plan before mass-editing.
-- If the target is genuinely ambiguous, ask which files or directory to work on.
+Pick the mode and build the file list as described in **Scope: two modes**. State the mode and the file list before editing so the user can redirect early.
 
 ### 2. Screen for carve-outs
 
@@ -128,11 +157,15 @@ Identify any files where history is the point (see the section above). Set them 
 
 Read each target and collect candidate edits. Search hints for the mechanical cases:
 
-```
+```sh
+# path mode — scan the named files/folders
 grep -rniE "no longer|used to|previously|formerly|renamed from|migrated from|instead of|rather than|the old |the new |now (uses|returns|is|it)" <path>
+
+# changes mode — scan only added lines in the diff
+git diff -U0 HEAD | grep -iE "^\+.*(no longer|used to|previously|formerly|renamed from|migrated from|instead of|rather than|the old |the new |now (uses|returns|is|it))"
 ```
 
-Grep only surfaces obvious cases — the temporal-contrast and negative-inventory patterns often need a human read. Do not rely on grep alone.
+Grep only surfaces obvious cases — the temporal-contrast and negative-inventory patterns often need a human read. Do not rely on grep alone. In changes mode, also read the hunks in context: an unchanged comment above changed code may now describe behavior that no longer exists.
 
 ### 4. Rewrite to present state
 
@@ -162,10 +195,13 @@ Remove statements that restate what the code plainly does, ceremonial comments, 
 
 ## Output
 
-Report what changed, grouped by file:
+Report the mode and what changed, grouped by file:
 
 - file and location
 - pattern (temporal contrast, change narration, negative inventory, trivial detail, …)
 - before → after, or the deleted text and why it carried no current-state signal
 
-If any carve-out files or ambiguous negations were found, list them separately as items needing the user's decision.
+List separately, as items needing the user's decision:
+
+- carve-out files and ambiguous negations that were left untouched
+- in changes mode, forbidden patterns spotted outside the changed prose (candidates for a follow-up path-mode pass)

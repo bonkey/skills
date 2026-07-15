@@ -76,7 +76,7 @@ npx skills add bonkey/skills -g --skill exec-summary -y
 
 ### timeless-docs
 
-Improve docs and comment prose so it describes the current state of the code directly — cutting history, transitions, absences, and trivial detail. Rewrites "previously / now / no longer / migrated from / instead of" phrasing into plain present-state statements while preserving every non-trivial fact.
+Improve docs and comment prose so it describes the current state of the code directly — cutting history, transitions, absences, and trivial detail. Rewrites "previously / now / no longer / migrated from / instead of" phrasing into plain present-state statements while preserving every non-trivial fact. Runs in two modes: on the current changes (session edits, uncommitted work, or the branch diff) or on named files/folders.
 
 ```sh
 npx skills add bonkey/skills -g --skill timeless-docs -y
