@@ -23,6 +23,7 @@ This skill is for the **current PR on the current branch**.
 - Be conservative about *whether* a thread is handled, but once you have confirmed it is, resolve it — do not leave verified-handled threads open.
 - Always leave a short explanation reply on a thread before resolving it, regardless of why it is being resolved (fixed in code, invalid, obsolete, or settled by discussion).
 - Mark every comment you post to the PR (thread replies and top-level comments alike) with a trailing attribution line: `🤖 Generated with Claude Code`. Put it on its own line at the end of the comment body.
+- Report every comment you post. Capture each comment's URL from the API response at post time — never reconstruct or guess a link — and list them all at the end of the run, each abridged to one or two sentences.
 - This skill is repeatable. Assume it may be run many times on the same PR, and each run fetch the live state fresh — never rely on a previous run's inventory. On every run, pick up comments added since last time and re-check open threads that the code may have made addressed or obsolete.
 - Distinguish between **review threads** and **top-level PR comments**:
   - Review threads can be resolved.
@@ -158,8 +159,9 @@ Required approach (do both, in this order):
 Example shape:
 
 ```sh
-# 1. Reply with a short explanation (end the body with the attribution line)
-gh api graphql -f query='mutation($threadId:ID!,$body:String!) { addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:$threadId, body:$body}) { comment { id } } }' -F threadId='THREAD_ID' -F body='Fixed in <commit> — extracted the helper as requested.
+# 1. Reply with a short explanation (end the body with the attribution line).
+#    Request `url` back and keep it — it is the direct link for the posted-comments list.
+gh api graphql -f query='mutation($threadId:ID!,$body:String!) { addPullRequestReviewThreadReply(input:{pullRequestReviewThreadId:$threadId, body:$body}) { comment { id url } } }' -F threadId='THREAD_ID' -F body='Fixed in <commit> — extracted the helper as requested.
 
 🤖 Generated with Claude Code'
 
@@ -177,6 +179,14 @@ Top-level PR comments cannot be resolved. Instead:
 - optionally draft or post a short reply
 - report it as addressed / no action needed in your summary
 
+`gh pr comment` prints the URL of the comment it created — keep that URL for the posted-comments list:
+
+```sh
+gh pr comment PR_NUMBER --body 'Confirmed — the rate limit is enforced by the gateway, so no change here.
+
+🤖 Generated with Claude Code'
+```
+
 Do not claim you resolved something GitHub does not allow you to resolve.
 
 ## Output format
@@ -189,6 +199,20 @@ Use a compact checklist or table with columns like:
 - `decision`
 - `reason`
 - `action`
+
+### Comments posted
+
+End every run with a list of the comments posted during that run, in the order they were posted. Give each one a single bullet: one or two sentences abridging what the comment says, followed by a direct link to it.
+
+```markdown
+## Comments posted
+
+- Extracted the retry helper into `client.go:88` as requested, then resolved the thread — [reply](https://github.com/owner/repo/pull/123#discussion_r456789)
+- Explained that the nil check is unreachable because the caller validates the input — [reply](https://github.com/owner/repo/pull/123#discussion_r456790)
+- Confirmed the rate limit is enforced by the gateway, so no change is needed — [comment](https://github.com/owner/repo/pull/123#issuecomment-99887766)
+```
+
+Use the URLs returned by the API when posting. If the run posted no comments, say so instead of omitting the list.
 
 ## Decision standard
 

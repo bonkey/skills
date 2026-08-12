@@ -39,7 +39,7 @@ update-claude-plugin-creator:
     curl -sL "https://code.claude.com/docs/en/plugins-reference.md" -o skills/claude-plugin-creator/references/plugins-reference-raw.md
     curl -sL "https://code.claude.com/docs/en/plugin-marketplaces.md" -o skills/claude-plugin-creator/references/plugin-marketplaces.md
 
-# No external references required for pr-comment-triage
+# No external references required for pr-comment-triage; comment marker policy is in SKILL.md
 update-pr-comment-triage:
     @true
 
