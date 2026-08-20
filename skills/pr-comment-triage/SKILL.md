@@ -24,6 +24,7 @@ This skill is for the **current PR on the current branch**.
 - Always leave a short explanation reply on a thread before resolving it, regardless of why it is being resolved (fixed in code, invalid, obsolete, or settled by discussion).
 - Mark every comment you post to the PR (thread replies and top-level comments alike) with a trailing attribution line: `🤖 Generated with Claude Code`. Put it on its own line at the end of the comment body.
 - Report every comment you post. Capture each comment's URL from the API response at post time — never reconstruct or guess a link — and list them all at the end of the run, each abridged to one or two sentences.
+- Read every page of every API response. GitHub returns at most 100 items per page, so an un-paginated fetch is an incomplete inventory — see [Identify the current PR](#1-identify-the-current-pr) for the paginated commands.
 - This skill is repeatable. Assume it may be run many times on the same PR, and each run fetch the live state fresh — never rely on a previous run's inventory. On every run, pick up comments added since last time and re-check open threads that the code may have made addressed or obsolete.
 - Distinguish between **review threads** and **top-level PR comments**:
   - Review threads can be resolved.
@@ -38,10 +39,10 @@ This skill is for the **current PR on the current branch**.
 
 Get the current PR for the checked-out branch.
 
-Preferred commands:
+Preferred command:
 
 ```sh
-gh pr view --json number,title,url,comments,reviews
+gh pr view --json number,title,url,headRepositoryOwner
 ```
 
 Use `gh api graphql` to fetch review threads, since `gh pr view` may not expose the full thread inventory you need.
@@ -56,6 +57,46 @@ Fetch:
   - all comments in the thread
 - Top-level issue comments on the PR conversation
 
+#### Read every page
+
+GitHub caps each response at 100 items, and `gh pr view --json comments,reviews` returns only the first page. A truncated fetch hides comments without any error, so pass `--paginate` on every list call and follow cursors until `hasNextPage` is `false`.
+
+REST endpoints — `--paginate` follows the `Link` header to the last page:
+
+```sh
+gh api --paginate repos/OWNER/REPO/issues/PR_NUMBER/comments   # top-level conversation
+gh api --paginate repos/OWNER/REPO/pulls/PR_NUMBER/comments    # review thread comments
+gh api --paginate repos/OWNER/REPO/pulls/PR_NUMBER/reviews     # review summaries
+```
+
+GraphQL — the query must declare an `$endCursor` variable and request `pageInfo { hasNextPage endCursor }`, otherwise `--paginate` cannot advance:
+
+```sh
+gh api graphql --paginate -F owner='OWNER' -F repo='REPO' -F pr=PR_NUMBER -f query='
+query($owner:String!, $repo:String!, $pr:Int!, $endCursor:String) {
+  repository(owner: $owner, name: $repo) {
+    pullRequest(number: $pr) {
+      reviewThreads(first: 100, after: $endCursor) {
+        pageInfo { hasNextPage endCursor }
+        nodes {
+          id
+          isResolved
+          isOutdated
+          path
+          line
+          comments(first: 100) {
+            pageInfo { hasNextPage endCursor }
+            nodes { id author { login } createdAt body url }
+          }
+        }
+      }
+    }
+  }
+}'
+```
+
+`--paginate` follows one connection per query — `reviewThreads` here. Nested connections keep their own limit, so a thread whose `comments` reports `hasNextPage: true` needs its own follow-up query for the rest of that thread.
+
 If no PR exists for the current branch, stop and tell the user.
 
 ### 2. Build a complete comment inventory
@@ -67,6 +108,8 @@ Collect **all human feedback** that may require action. Build this fresh on ever
 - Resolved review threads that may have been resolved incorrectly
 - Top-level PR comments in the conversation
 - Review summaries when they include actionable requests
+
+Confirm the inventory is complete before you evaluate anything: every list call used `--paginate`, every cursor ran until `hasNextPage` is `false`, and the thread and comment counts match the PR page. If they do not match, fetch again rather than triaging a partial list.
 
 For each item, capture:
 
@@ -229,5 +272,6 @@ If none of those are clearly true, do not resolve it.
 
 - If `gh` is not authenticated, tell the user to run `gh auth login`.
 - If GraphQL fields differ by GitHub version or API shape, fall back to a custom `gh api graphql` query.
+- If a comment you know exists is missing from the inventory, the fetch was truncated. Re-run it with `--paginate`, and check nested connections such as a thread's `comments` for their own `hasNextPage`.
 - If the current branch has no PR, stop and tell the user.
 - If you cannot determine whether a comment is addressed from the code alone, ask the user instead of guessing.
