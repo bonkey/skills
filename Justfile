@@ -1,5 +1,5 @@
 # Update all skill references
-update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-smooth-rebase update-exec-summary update-timeless-docs
+update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-pr-shepherd update-smooth-rebase update-exec-summary update-timeless-docs
 
 # Fetch latest Anthropic skill builder guide for skills-manual
 update-skills-manual:
@@ -41,6 +41,10 @@ update-claude-plugin-creator:
 
 # No external references required for pr-comment-triage; comment marker policy is in SKILL.md
 update-pr-comment-triage:
+    @true
+
+# No external references required for pr-shepherd; it delegates to pr-comment-triage and smooth-rebase
+update-pr-shepherd:
     @true
 
 # No external references required for smooth-rebase

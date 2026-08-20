@@ -58,6 +58,14 @@ Reviews all comments on the current pull request, reading every page of the GitH
 npx skills add bonkey/skills -g --skill pr-comment-triage -y
 ```
 
+### pr-shepherd
+
+Carries the current pull request toward mergeable: reads what the base branch actually requires (required checks, approvals, thread resolution, linear history), works every unmet requirement to fixed, rejected, or reported-open, then arms a monitor and hands the watch back to the agent. Runs one pass per invocation and never merges unless the user says to.
+
+```sh
+npx skills add bonkey/skills -g --skill pr-shepherd -y
+```
+
 ### smooth-rebase
 
 Rebases the current branch onto the repository's default branch (detected from git), resolving conflicts carefully and conservatively. Resumes an in-progress rebase instead of starting a new one, and asks the user whenever the correct resolution is unclear.
