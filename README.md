@@ -52,7 +52,7 @@ npx skills add bonkey/skills -g --skill pr -y
 
 ### pr-comment-triage
 
-Reviews all comments on the current pull request, reading every page of the GitHub API results, evaluates whether each one still needs action, addresses or resolves each thread, and leaves a short explanation reply marked `🤖 Generated with Claude Code` on every thread it resolves. Ends each run with a linked list of the comments it posted.
+Reviews all comments on the current pull request, reading every page of the GitHub API results, evaluates whether each one still needs action, addresses or resolves each thread, and leaves a short explanation reply marked `🤖 Generated with Claude Code` on every thread it resolves. Treats remarks from AI review agents as unverified claims: it confirms each one in the code before changing a line, and rejects the ones the code contradicts. Ends each run with a linked list of the comments it posted.
 
 ```sh
 npx skills add bonkey/skills -g --skill pr-comment-triage -y
@@ -60,7 +60,7 @@ npx skills add bonkey/skills -g --skill pr-comment-triage -y
 
 ### pr-shepherd
 
-Carries the current pull request toward mergeable: reads what the base branch actually requires (required checks, approvals, thread resolution, linear history), works every unmet requirement to fixed, rejected, or reported-open, then arms a monitor and hands the watch back to the agent. Runs one pass per invocation and never merges unless the user says to.
+Carries the current pull request toward mergeable: reads what the base branch actually requires (required checks, approvals, thread resolution, linear history), works every unmet requirement to fixed, rejected, or reported-open, then arms a monitor and hands the watch back to the agent. Verifies AI-authored review remarks against the code instead of trusting them, and never widens the diff for a bot. Runs one pass per invocation and never merges unless the user says to.
 
 ```sh
 npx skills add bonkey/skills -g --skill pr-shepherd -y
