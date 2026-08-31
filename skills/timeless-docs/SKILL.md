@@ -107,7 +107,7 @@ Some documents exist to record change. Leave these alone, or ask before touching
 
 - `CHANGELOG.md`, release notes, version history
 - Migration guides and upgrade guides
-- Architecture Decision Records / decision logs (see the `decision-log` skill)
+- Architecture Decision Records / decision logs (see the `captains-log` skill)
 - Deprecation notices with a removal timeline — these warn about the current and near future, and are still load-bearing
 
 If the user's selected area includes one of these, flag it and confirm before editing rather than flattening its history away.

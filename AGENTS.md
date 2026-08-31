@@ -1,5 +1,16 @@
 # Agent Instructions
 
+## Skill Naming
+
+Follow the pattern set by existing skills (`pr`, `done`, `exec-summary`, `pr-shepherd`, `captains-log`, `smooth-rebase`, `timeless-docs`):
+
+- Lowercase kebab-case, 1–3 words; folder name and frontmatter `name` must match
+- Name the object or outcome, not the activity: `captains-log` not `log-decisions`, `timeless-docs` not `improve-docs`
+- Prefix with the target domain when scoping a family: `pr`, `pr-comment-triage`, `pr-shepherd`
+- Distinctive over generic: pick an evocative word that captures the skill's character (`timeless-docs`, `pr-shepherd`, `smooth-rebase`, `captains-log`), not a flat label (`docs-improver`, `pr-monitor`, `rebase-helper`). Avoid names that collide with well-known tools or services (e.g. `codex`)
+- Must read naturally as a slash command (`/done`, `/pr`, `/exec-summary`)
+- No filler words like `helper`, `tool`, `manager`, `skill`
+
 ## Skill Maintenance
 
 When adding, updating, or removing a skill, always update:

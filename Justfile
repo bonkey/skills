@@ -1,5 +1,5 @@
 # Update all skill references
-update-all: update-skills-manual update-claude-plugin-creator update-done update-pr-comment-triage update-pr-shepherd update-smooth-rebase update-exec-summary update-timeless-docs
+update-all: update-skills-manual update-plugin-forge update-done update-pr-comment-triage update-pr-shepherd update-smooth-rebase update-exec-summary update-timeless-docs
 
 # Fetch latest Anthropic skill builder guide for skills-manual
 update-skills-manual:
@@ -32,12 +32,12 @@ update-done:
         done
     } > skills/done/references/worktrunk.md
 
-# Fetch latest Claude plugin docs for claude-plugin-creator
-update-claude-plugin-creator:
-    mkdir -p skills/claude-plugin-creator/references
-    curl -sL "https://code.claude.com/docs/en/plugins.md" -o skills/claude-plugin-creator/references/create-plugins.md
-    curl -sL "https://code.claude.com/docs/en/plugins-reference.md" -o skills/claude-plugin-creator/references/plugins-reference-raw.md
-    curl -sL "https://code.claude.com/docs/en/plugin-marketplaces.md" -o skills/claude-plugin-creator/references/plugin-marketplaces.md
+# Fetch latest Claude plugin docs for plugin-forge
+update-plugin-forge:
+    mkdir -p skills/plugin-forge/references
+    curl -sL "https://code.claude.com/docs/en/plugins.md" -o skills/plugin-forge/references/create-plugins.md
+    curl -sL "https://code.claude.com/docs/en/plugins-reference.md" -o skills/plugin-forge/references/plugins-reference-raw.md
+    curl -sL "https://code.claude.com/docs/en/plugin-marketplaces.md" -o skills/plugin-forge/references/plugin-marketplaces.md
 
 # No external references required for pr-comment-triage; comment marker policy is in SKILL.md
 update-pr-comment-triage:

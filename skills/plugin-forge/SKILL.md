@@ -1,9 +1,9 @@
 ---
-name: claude-plugin-creator
+name: plugin-forge
 description: "Create Claude Code plugins, skills, commands, agents, hooks, MCP servers, and marketplace files. Use when building a plugin, packaging skills for sharing, creating a marketplace, converting standalone config to a plugin, or deciding between plugin vs skill vs MCP vs standalone."
 ---
 
-# Claude Plugin Creator
+# Plugin Forge
 
 Guide for creating Claude Code plugins. For full reference, see `references/plugins-reference.md`.
 

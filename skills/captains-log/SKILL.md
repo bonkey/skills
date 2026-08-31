@@ -1,9 +1,9 @@
 ---
-name: decision-log
-description: "Lightweight ADR decision log that auto-captures plans. Use when planning a new feature, proposing architecture changes, tracking implementation decisions, exiting plan mode, or asking 'should I write a decision log'. Includes a Claude Code hook for automatic capture on ExitPlanMode."
+name: captains-log
+description: "Lightweight ADR decision log — a captain's log for the codebase — that auto-captures plans. Use when planning a new feature, proposing architecture changes, tracking implementation decisions, exiting plan mode, or asking 'should I write a decision log' or 'captain's log'. Includes a Claude Code hook for automatic capture on ExitPlanMode."
 ---
 
-# Decision Log
+# Captain's Log
 
 Capture architectural and feature decisions as lightweight ADR files. Automatically triggered when exiting plan mode; manually triggered for significant decisions outside plan mode.
 
