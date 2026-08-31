@@ -82,6 +82,14 @@ Summarize the last substantive assistant message in plain language for decision-
 npx skills add bonkey/skills -g --skill exec-summary -y
 ```
 
+### [write-responsibly](skills/write-responsibly/SKILL.md)
+
+Edit or draft prose that respects the reader's time — cuts AI slop, hedge stacks, filler, inflated words, and throat-clearing while preserving the writer's voice and register. Built on Thompson's 1982 clear-writing rules and Vonnegut's reader contract: waste no stranger's time, every sentence works, start close to the end, write to one person, withhold nothing.
+
+```sh
+npx skills add bonkey/skills -g --skill write-responsibly -y
+```
+
 ### timeless-docs
 
 Improve docs and comment prose so it describes the current state of the code directly — cutting history, transitions, absences, and trivial detail. Rewrites "previously / now / no longer / migrated from / instead of" phrasing into plain present-state statements while preserving every non-trivial fact. Runs in two modes: on the current changes (session edits, uncommitted work, or the branch diff) or on named files/folders.
