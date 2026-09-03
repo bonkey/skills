@@ -84,7 +84,7 @@ npx skills add bonkey/skills -g --skill exec-summary -y
 
 ### [write-responsibly](skills/write-responsibly/SKILL.md)
 
-Edit or draft prose that respects the reader's time — cuts AI slop, hedge stacks, filler, inflated words, and throat-clearing while preserving the writer's voice and register. Built on Thompson's 1982 clear-writing rules and Vonnegut's reader contract: waste no stranger's time, every sentence works, start close to the end, write to one person, withhold nothing.
+Edit or draft prose that respects the reader's time. Cuts AI slop (hedge stacks, filler, inflated words, throat-clearing, em-dashes, semicolons) while keeping the writer's voice and register.
 
 ```sh
 npx skills add bonkey/skills -g --skill write-responsibly -y
