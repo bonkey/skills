@@ -13,7 +13,7 @@ Operations are combinable. If the user includes reviewers, labels, or other meta
 
 | User says                                 | Action                                     |
 | ----------------------------------------- | ------------------------------------------ |
-| `/pr` (no text)                           | Create or update PR (web interface)        |
+| `/pr` (no text)                           | Create or update PR via `gh` CLI           |
 | `/pr this fixes the timeout bug`          | Same, with added context for description   |
 | `/pr against release/v2.x`                | PR against specified base branch           |
 | `/pr close`                               | `gh pr close --delete-branch`              |
@@ -150,9 +150,11 @@ Built-in templates live in `assets/default-template.md` and `assets/minimal-temp
    - Generate a short conventional-commit-style message (`feat:`, `fix:`, `docs:` …) under 72 chars from the staged diff.
    - Commit, then proceed.
 2. Push branch if needed: `git push -u origin HEAD`
-3. Create or update:
-   - **New PR:** `gh pr create --web` — **ONLY open the browser**. Do NOT pass `--title` or `--body` to `gh pr create`; those flags cause CLI creation. Print the generated title and body to the console for the user to paste in the browser. Use `gh pr create --title "..." --body "..."` only if the user explicitly asks for CLI creation.
-   - **Existing PR:** `gh pr edit --title "..." --body "..."`
+3. Create or update. Write the generated body to a temporary file, pass it with `--body-file`, and report the PR URL. Never print the title or body for the user to paste.
+   - **New PR:** `gh pr create --base <base> --title "..." --body-file <file>`. Add `--draft` only if the user asks for a draft.
+   - **Existing PR:** `gh pr edit --title "..." --body-file <file>`
+   - **Content the CLI cannot add** (uploaded images, screenshots): create or update the PR as above first, then run `gh pr view --web` so the user only adds what the CLI cannot.
+   - If the repository's own instructions (`CLAUDE.md`, `AGENTS.md`) prescribe how to create PRs, follow them over these defaults.
 4. Apply any combined operations (reviewers, labels) from the user's input
 
 **Reviewers:** before adding, check availability via `gh api`:
