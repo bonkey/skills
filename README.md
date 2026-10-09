@@ -42,6 +42,14 @@ Create Claude Code plugins, skills, commands, agents, hooks, MCP servers, and ma
 npx skills add bonkey/skills -g --skill plugin-forge -y
 ```
 
+### [plugin-meister](skills/plugin-meister/SKILL.md)
+
+Installs, removes, updates, enables, and disables Claude Code plugins and marketplaces, and keeps the chezmoi run script that declares them in step. A plugin you remove here stays removed after the next `chezmoi update`, and a plugin you add reaches every machine. Leaves plugins installed by hand alone, never declares a private marketplace in public dotfiles without asking, and leaves the script change uncommitted for you to review.
+
+```sh
+npx skills add bonkey/skills -g --skill plugin-meister -y
+```
+
 ### [pr](skills/pr/SKILL.md)
 
 Create, update, and manage pull requests with auto-generated descriptions from git diffs. Supports full PR lifecycle: create, update, close, merge, reviewers, labels, and CI checks.

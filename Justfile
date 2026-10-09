@@ -1,5 +1,5 @@
 # Update all skill references
-update-all: update-skills-manual update-plugin-forge update-done update-pr-comment-triage update-pr-shepherd update-smooth-rebase update-exec-summary update-timeless-docs
+update-all: update-skills-manual update-plugin-forge update-plugin-meister update-done update-pr-comment-triage update-pr-shepherd update-smooth-rebase update-exec-summary update-timeless-docs
 
 # Fetch latest Anthropic skill builder guide for skills-manual
 update-skills-manual:
@@ -38,6 +38,10 @@ update-plugin-forge:
     curl -sL "https://code.claude.com/docs/en/plugins.md" -o skills/plugin-forge/references/create-plugins.md
     curl -sL "https://code.claude.com/docs/en/plugins-reference.md" -o skills/plugin-forge/references/plugins-reference-raw.md
     curl -sL "https://code.claude.com/docs/en/plugin-marketplaces.md" -o skills/plugin-forge/references/plugin-marketplaces.md
+
+# No external references required for plugin-meister; it reads `claude plugin --help` at runtime
+update-plugin-meister:
+    @true
 
 # No external references required for pr-comment-triage; comment marker policy is in SKILL.md
 update-pr-comment-triage:
